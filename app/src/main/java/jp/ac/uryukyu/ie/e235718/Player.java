@@ -1,42 +1,66 @@
-// package jp.ac.uryukyu.ie.e235718;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.List;
+package jp.ac.uryukyu.ie.e235718;
+import java.util.ArrayList;
 
-// import com.google.common.base.Strings;
+public class Player {
+    private String name;
+    public ArrayList<Card> hands;
 
-// import java.util.Iterator;
+    Player(String name){
+        // List<String> names1 = new ArrayList<String>("空条承太郎", "東方仗助", "吉良吉影", "DIO", "岸辺露伴", "リサリサ", "イギー");
+        this.name = name;
+        hands = new ArrayList<Card>();
+    }
 
-// // import org.checkerframework.checker.index.qual.SubstringIndexBottom;
 
-// public class Player {
-//     private List<String> names;
-//     private List<Card> hand;
+    public void addCard(Card card) {
+        hands.add(card);
+    }
 
-//     // List<String> have_cards = new ArrayList<>();
-
-    // Player(){
-    //     // List<String> names1 = new ArrayList<String>("空条承太郎", "東方仗助", "吉良吉影", "DIO", "岸辺露伴", "リサリサ", "イギー");
-    //     List<String> names = new ArrayList<String>("マッシュ・バーンデッド", "レモン・アーヴィン", "フィン・エイムズ", "ランス・クラウン", "ドット・バレット", "レイン・エイムズ", "アベル・ウォーカー", "セル・ウォー");
+    // void sayName(){
+    //     int p = 1;
+    //     ArrayList<Integer> nums = new ArrayList<Integer>();
+    //     while(true) {
+    //         Random rand = new Random();
+    //         int num = rand.nextInt(8);
+    //         if (nums.contains(num)){
+    //             continue;
+    //         } else {
+    //             System.out.printf("プレイヤー%dの名前は%sです。\n",p ,names.get(num));
+    //             p += 1;
+    //             nums.add(num);
+    //             if (p == 4) {
+    //                 break;
+    //             }
+    //         }
+    //     }
     // }
 
-//     void sayName(){
-//         int num = 0;
-//         for (int i = 0; i < 3; i++){
-//             System.out.printf("プレイヤー%dの名前は%sです。",num,names[num]);
-//             num += 1;
-//         }
-//     }
+    public void showHands() {
+        for (Card card : this.hands) {
+            System.out.println(card.getType());
+            System.out.println(card.getNumber());
+        }
+    }
 
-//     public void getNames(){
-//         System.out.println(names);
-//     }
+    public String getName(){
+        return this.name;
+    }
 
-//     public void setName(String _name){
-//         if (_name.length() == 0){
-//             System.out.println("名前を入力してください。");
-//         }else{
-//             this.names = _name;
-//         }
-//     }
-// }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // public void setName(String name){
+    //     if (name.length() == 0){
+    //         System.out.println("名前を入力してください。");
+    //     }else{
+    //         this.name.add(name);
+    //     }
+    // }
+
+    public int showCard() {
+        // if(judge()) {
+            return this.hands.get(0).getNumber();
+        // }
+    }
+}
