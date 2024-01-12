@@ -15,21 +15,37 @@ import java.util.*;
 
 public class Gamemaster {
     public Player[] players;
-    public Card[] yamahuda;
+    public ArrayList<Card> yamahuda;
     public Card[] fieldCard;
+    private int q;
+    public int n;
+    public int loop;
     public ArrayList<String> names = new ArrayList<String>(Arrays.asList("1: マッシュ・バーンデッド", "2: レモン・アーヴィン",
             "3: フィン・エイムズ", "4: ランス・クラウン", "5: ドット・バレット", "6: レイン・エイムズ", "7: アベル・ウォーカー", "8: セル・ウォー"));
 
     Gamemaster(Card[] yamahuda, Card[] fielCards) {
-        this.players = new Player[6];
         Scanner sc = new Scanner(System.in);
-        for (int i = 0; i < this.players.length; i++) {
+        System.out.println("プレイヤーの人数を選択してください。");
+        q = sc.nextInt();
+        loop = (54 - (54 % q)) / q;
+        
+        try {
+            loop = (54 - (54 % q)) / q;
+        } catch (Exception e) {
+            System.err.println("正しい数字を入力してください。");
+            return;
+        }
+        
+        this.players = new Player[q];
+        System.out.println("名前を入力してください。");
+        String name = sc.next();
+        this.players[0] = new Player(name);
+        for (int i = 1; i < this.players.length; i++) {
             System.out.println(names);
             System.out.println("番号を入力してください。");
             int p = sc.nextInt();
             players[i] = new Player(names.get(p - 1).split(" ")[1]);
         }
-        sc.close();
 
         String[] marks = new String[4];
         marks[0] = "\u2660";
@@ -37,16 +53,16 @@ public class Gamemaster {
         marks[2] = "\u2665";
         marks[3] = "\u2666";
 
-        int n = 0;
-        this.yamahuda = new Card[54];
+        n = 0;
+        this.yamahuda = new ArrayList<>();
         for (String mark : marks) {
             for (int i = 0; i < 13; i++) {
-                this.yamahuda[i + n] = new Card(mark + (i + 1));
+                this.yamahuda.add(new Card(mark + (i + 1)));
             }
             n += 13;
         }
-        this.yamahuda[52] = new Card("Joker");
-        this.yamahuda[53] = new Card("Joker");
+        this.yamahuda.add(new Card("Joker"));
+        this.yamahuda.add(new Card("Joker"));
 
         // for (Card card : this.yamahuda) {
         //     System.out.printf("%s %s\n", card.getType(), card.getNumber());
@@ -54,8 +70,8 @@ public class Gamemaster {
     }
 
     public void getPlayers() {
-        for (int i = 0; i < this.players.length; i++) {
-            System.out.println(this.players[i].getName());
+        for (int i = 1; i < this.players.length + 1; i++) {
+            System.out.printf("プレイヤー%dの名前は%sです。\n",i ,this.players[i - 1].getName());
         }
     }
 
@@ -63,20 +79,20 @@ public class Gamemaster {
     ArrayList<Integer> used = new ArrayList<Integer>();
 
     public void dealOut() {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < loop; i++) {
             for (Player player : players) {
-                int count = 0;
-                while (count < 1) {
-                    Random rand = new Random();
-                    int num = rand.nextInt(54);
-                    if (used.contains(num)) {
-                        continue;
-                    } else {
-                        player.addCard(yamahuda[num]);
-                        count += 1;
-                    }
-                }
+                Random rand = new Random();
+                int num = rand.nextInt(yamahuda.size());
+                player.addCard(yamahuda.get(num));
+                yamahuda.remove(num);
             }
+        }
+
+        for (int i = 0; i < 54 % q; i ++) {
+            Random rand = new Random();
+            int num = rand.nextInt(yamahuda.size());
+            players[i].addCard(yamahuda.get(num));
+            yamahuda.remove(num);
         }
     }
 

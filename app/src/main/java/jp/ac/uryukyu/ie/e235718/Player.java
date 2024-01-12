@@ -35,12 +35,6 @@ public class Player {
     //     }
     // }
 
-    public void showHands() {
-        for (Card card : this.hands) {
-            System.out.println(card.getType());
-            System.out.println(card.getNumber());
-        }
-    }
 
     public String getName(){
         return this.name;
@@ -58,9 +52,11 @@ public class Player {
     //     }
     // }
 
-    public int showCard() {
-        // if(judge()) {
-            return this.hands.get(0).getNumber();
-        // }
+    public ArrayList<String> showHand() {
+        ArrayList<String> hand = new ArrayList<>();
+        for (Card card : this.hands) {
+            hand.add(card.showCard());
+        }
+        return hand;
     }
 }

@@ -25,7 +25,8 @@ public class Main {
         test.dealOut();
         for (Player player : test.players) {
             // player.showHands();
-            System.out.println(player.hands.size());
+            // System.out.println(player.hands.size());
+            System.out.println(player.showHand());
         }
     }
 }
