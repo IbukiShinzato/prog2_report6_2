@@ -53,7 +53,7 @@ public class Player {
     public void setNumber(int number) {
         this.number = number;
     }
-    
+
     // public void setName(String name){
     //     if (name.length() == 0){
     //         System.out.println("名前を入力してください。");

@@ -31,7 +31,7 @@ public class Main {
         Player startPlayer = test.startPlayer();
         System.out.println(startPlayer.getNumber());
         System.out.println(startPlayer.showHand());
-
+        System.out.println(test.createTurn(startPlayer.getNumber()));
     }
 }
 

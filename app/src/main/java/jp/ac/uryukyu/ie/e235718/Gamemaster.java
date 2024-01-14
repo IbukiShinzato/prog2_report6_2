@@ -22,6 +22,7 @@ public class Gamemaster {
     public int loop;
     public ArrayList<String> names = new ArrayList<String>(Arrays.asList("1: マッシュ・バーンデッド", "2: レモン・アーヴィン",
             "3: フィン・エイムズ", "4: ランス・クラウン", "5: ドット・バレット", "6: レイン・エイムズ", "7: アベル・ウォーカー", "8: セル・ウォー"));
+    public ArrayList<Integer> playTurn;
 
     Gamemaster(Card[] yamahuda, Card[] fielCards) {
         Scanner sc = new Scanner(System.in);
@@ -35,7 +36,7 @@ public class Gamemaster {
             System.err.println("正しい数字を入力してください。");
             return;
         }
-        
+
         this.players = new Player[q];
         System.out.println("名前を入力してください。");
         String name = sc.next();
@@ -108,9 +109,26 @@ public class Gamemaster {
         return null;
     }
 
+    // どのプレイヤーがカードをプレイするかの決定
     // public turn() {
-    // //どのプレイヤーがカードをプレイするかの決定
+        
     // }
+
+    public ArrayList<Integer> createTurn(int startNum) {
+        playTurn = new ArrayList<>();
+        int count = startNum;
+        for (int i = startNum; i < startNum + q; i++) {
+            if (i == q + 1) {
+                count = 1;
+            } else if (i > q + 1) {
+                count += 1;
+            } else {
+                count = i;
+            }
+            playTurn.add(count);
+        }
+        return playTurn;
+    }
 
     // 出せるカードの決定
     // public void rule(int number) {
