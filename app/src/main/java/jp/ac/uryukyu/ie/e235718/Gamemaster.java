@@ -39,12 +39,12 @@ public class Gamemaster {
         this.players = new Player[q];
         System.out.println("名前を入力してください。");
         String name = sc.next();
-        this.players[0] = new Player(name);
+        this.players[0] = new Player(name, 1);
         for (int i = 1; i < this.players.length; i++) {
             System.out.println(names);
             System.out.println("番号を入力してください。");
             int p = sc.nextInt();
-            players[i] = new Player(names.get(p - 1).split(" ")[1]);
+            players[i] = new Player(names.get(p - 1).split(" ")[1], i + 1);
         }
 
         String[] marks = new String[4];
@@ -94,6 +94,18 @@ public class Gamemaster {
             players[i].addCard(yamahuda.get(num));
             yamahuda.remove(num);
         }
+    }
+
+    public Player startPlayer() {
+        for(Player player : this.players) {
+            for (Card card : player.hands) {
+                if (card.getType().equals("♦") & card.getNumber() == 3) {
+                    player.hands.remove(card);
+                    return player;
+                }
+            }
+        }
+        return null;
     }
 
     // public turn() {

@@ -3,11 +3,13 @@ import java.util.ArrayList;
 
 public class Player {
     private String name;
+    private int number;
     public ArrayList<Card> hands;
-
-    Player(String name){
+    
+    Player(String name, int number){
         // List<String> names1 = new ArrayList<String>("空条承太郎", "東方仗助", "吉良吉影", "DIO", "岸辺露伴", "リサリサ", "イギー");
         this.name = name;
+        this.number = number;
         hands = new ArrayList<Card>();
     }
 
@@ -44,6 +46,14 @@ public class Player {
         this.name = name;
     }
 
+    public int getNumber() {
+        return this.number;
+    } 
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+    
     // public void setName(String name){
     //     if (name.length() == 0){
     //         System.out.println("名前を入力してください。");

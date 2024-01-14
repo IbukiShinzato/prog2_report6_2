@@ -28,6 +28,10 @@ public class Main {
             // System.out.println(player.hands.size());
             System.out.println(player.showHand());
         }
+        Player startPlayer = test.startPlayer();
+        System.out.println(startPlayer.getNumber());
+        System.out.println(startPlayer.showHand());
+
     }
 }
 

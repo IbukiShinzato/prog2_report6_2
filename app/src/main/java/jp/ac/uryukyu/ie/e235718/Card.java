@@ -37,7 +37,7 @@ public class Card {
     }
 
     public String showCard() {
-        if (type.equals("Joker")) {
+        if (this.type.equals("Joker")) {
             return this.type;
         } else {
             return this.type + this.number;
