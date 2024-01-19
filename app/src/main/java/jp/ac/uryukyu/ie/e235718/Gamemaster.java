@@ -13,7 +13,7 @@ import java.util.*;
  * "\u2666" = ダイヤ
  */
 
-public class Gamemaster {
+public class GameMaster {
     public Player[] players;
     public ArrayList<Card> yamahuda;
     public Card[] fieldCard;
@@ -22,9 +22,12 @@ public class Gamemaster {
     public int loop;
     public ArrayList<String> names = new ArrayList<String>(Arrays.asList("1: マッシュ・バーンデッド", "2: レモン・アーヴィン",
             "3: フィン・エイムズ", "4: ランス・クラウン", "5: ドット・バレット", "6: レイン・エイムズ", "7: アベル・ウォーカー", "8: セル・ウォー"));
-    public ArrayList<Integer> playTurn;
+    public ArrayList<Player> playTurn;
+    public ArrayList<Card> nowCards;
+    public ArrayList<Player> winners;
+    public boolean ok;
 
-    Gamemaster(Card[] yamahuda, Card[] fielCards) {
+    public GameMaster() {
         Scanner sc = new Scanner(System.in);
         System.out.println("プレイヤーの人数を選択してください。");
         q = sc.nextInt();
@@ -42,7 +45,9 @@ public class Gamemaster {
         String name = sc.next();
         this.players[0] = new Player(name, 1);
         for (int i = 1; i < this.players.length; i++) {
-            System.out.println(names);
+            for (String chName : names) {
+                System.out.println(chName);
+            }
             System.out.println("番号を入力してください。");
             int p = sc.nextInt();
             players[i] = new Player(names.get(p - 1).split(" ")[1], i + 1);
@@ -65,6 +70,8 @@ public class Gamemaster {
         this.yamahuda.add(new Card("Joker"));
         this.yamahuda.add(new Card("Joker"));
 
+        this.winners = new ArrayList<>();
+        // this.winPlayers = new ArrayList<>();
         // for (Card card : this.yamahuda) {
         //     System.out.printf("%s %s\n", card.getType(), card.getNumber());
         // }
@@ -75,9 +82,6 @@ public class Gamemaster {
             System.out.printf("プレイヤー%dの名前は%sです。\n",i ,this.players[i - 1].getName());
         }
     }
-
-    int count = 0;
-    ArrayList<Integer> used = new ArrayList<Integer>();
 
     public void dealOut() {
         for (int i = 0; i < loop; i++) {
@@ -109,12 +113,7 @@ public class Gamemaster {
         return null;
     }
 
-    // どのプレイヤーがカードをプレイするかの決定
-    // public turn() {
-        
-    // }
-
-    public ArrayList<Integer> createTurn(int startNum) {
+    public ArrayList<Player> createTurn(int startNum) {
         playTurn = new ArrayList<>();
         int count = startNum;
         for (int i = startNum; i < startNum + q; i++) {
@@ -125,9 +124,79 @@ public class Gamemaster {
             } else {
                 count = i;
             }
-            playTurn.add(count);
+            playTurn.add(players[count - 1]);
         }
         return playTurn;
+    }
+
+    // どのプレイヤーがカードをプレイするかの決定
+    // public void turn() {
+    //     int count = 1;
+    //     ArrayList<Card> cards = null;
+    //     while (playTurn.size() > 0) {
+    //         for (Player player : playTurn) {
+    //             if (player.judge(cards)) {
+    //                 //カードを出す
+    //                 for (Card card : cards) {
+    //                     changeRule(card);
+    //                 }
+    //             } else {
+    //                 cards = null;
+    //             }
+
+    //             if (player.hands.size() == 0) {
+    //                 playTurn.remove(player);
+    //                 player.setWinNum(count);
+    //                 count += 1;
+    //             }
+    //         }
+    //     }
+    // }
+
+    public void turn() {
+        int winNum = 1;
+        ArrayList<Card> pastCards = new ArrayList<>();
+        pastCards.add(new Card("00"));
+        ArrayList<Player> used = new ArrayList<>();
+        ok = true;
+        while (true) {
+            for(int i = 0; i < q ; i ++ ) {
+                if (used.contains(playTurn.get(i))) {
+                    continue;
+                }
+                nowCards = playTurn.get(i).selectCards();
+                if (ok) {
+                    //カードを出す
+                    for (Card card : nowCards) {
+                        changeRule(card);
+                    }
+                    //カードを消去
+                    for (Card card : nowCards) {
+                        playTurn.get(i).hands.remove(card);
+                    }
+                } else {
+                    pastCards = nowCards;
+                    pastCards.add(new Card("00"));
+                }
+                if (playTurn.get(i).hands.size() == 0) {
+                    System.out.printf("プレイヤー%d上がり！\n", players[i].getNumber());
+                    used.add(playTurn.get(i));
+                    playTurn.get(i).setWinNum(winNum);
+                    this.winners.add(playTurn.get(i));
+                    winNum += 1;
+                }
+                if (used.size() >= q - 1) {
+                    for (int j = 0; j < q; j ++ ){
+                        if (!used.contains(playTurn.get(j))) {
+                            playTurn.get(j).setWinNum(winNum);
+                            this.winners.add(playTurn.get(j));
+                        }
+                    }
+                    showWin();
+                    System.exit(0);
+                }
+            }
+        }
     }
 
     // 出せるカードの決定
@@ -136,20 +205,32 @@ public class Gamemaster {
     // }
 
     // スキルが出た際にルール変更
-    // public void changerule(int number) {
-    // if (number == 5) {
-    // // 隣のプレイヤーをスキップ
-    // } else if (number == 7) {
-    // // 隣のプレイヤーに好きなカードを渡す
-    // } else if (number == 8) {
-    // // 自分の好きなカードを出せる
-    // } else if (number == 10) {
-    // // 自分の好きなカードを捨てる
-    // } else if (number == 11) {
-    // // カードの序列変行
-    // } else if (number == 12) {
-    // // 指定したカードを全て捨てる
-    // }
-    // }
+    public void changeRule(Card card) {
+        if (card.getNumber() == 5) {
+            
+            // 隣のプレイヤーをスキップ
+        } else if (card.getNumber() == 7) {
+        // 隣のプレイヤーに好きなカードを渡す
+        } else if (card.getNumber() == 8) {
+        // 自分の好きなカードを出せる
+        } else if (card.getNumber() == 10) {
+        // 自分の好きなカードを捨てる
+        } else if (card.getNumber() == 11) {
+        // カードの序列変行
+        } else if (card.getNumber() == 12) {
+        // 指定したカードを全て捨てる
+        } else if (card.getNumber() == -1) {
+            
+        } else {
 
+        }
+    }
+
+    public void showWin() {
+        System.out.println("-----------------");
+        for (Player winner : this.winners) {
+            System.out.printf("%d位は%sです！\n", winner.winNum, winner.getName());
+        }
+    }
 }
+

@@ -20,7 +20,8 @@ public class Main {
         // System.out.println(testPlayer.showCard());
         // testPlayer.sayName();
 
-        Gamemaster test = new Gamemaster(null, null);
+        GameMaster test = new GameMaster();
+        // System.out.println(test.players);
         test.getPlayers();
         test.dealOut();
         for (Player player : test.players) {
@@ -31,7 +32,9 @@ public class Main {
         Player startPlayer = test.startPlayer();
         System.out.println(startPlayer.getNumber());
         System.out.println(startPlayer.showHand());
-        System.out.println(test.createTurn(startPlayer.getNumber()));
+        test.createTurn(startPlayer.getNumber());
+
+        test.turn();
     }
 }
 
