@@ -58,9 +58,8 @@ public class Player {
         ArrayList<Card> cards = new ArrayList<>();
 
         if (inputLine.equals("-1")) {
+            System.out.printf("プレイヤー%dはパスをしました。", number);
             cards = new ArrayList<>();
-            cards.add(new Card("-1"));
-            return cards;
         } else {
             // スペースで分割して文字列配列に変換
             String[] numbersAsString = inputLine.split(" ");
@@ -74,8 +73,8 @@ public class Player {
             for (int number : numbers) {
                 cards.add(hands.get(number - 1));
             }
-            return cards;
         }
+        return cards;
     }
 
     // public boolean judge(boolean ok, ArrayList<Card> nowCards) {
