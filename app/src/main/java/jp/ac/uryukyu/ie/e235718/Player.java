@@ -3,6 +3,14 @@ package jp.ac.uryukyu.ie.e235718;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Playerクラス
+ * String name; //プレイヤー名
+ * int number; //プレイヤーの番号
+ * int winNum; //順位
+ * ArrayList<Card> hands; //手札
+ * ArrayList<Integer> numbers; //出すカードのindex
+ */
 public class Player {
     private String name;
     private int number;
@@ -10,9 +18,12 @@ public class Player {
     public ArrayList<Card> hands;
     public ArrayList<Integer> numbers;
 
+    /**
+     * Playerのコンストラクタ
+     * @param name プレイヤー名
+     * @param number　　プレイヤーの番号
+     */
     Player(String name, int number) {
-        // List<String> names1 = new ArrayList<String>("空条承太郎", "東方仗助", "吉良吉影", "DIO",
-        // "岸辺露伴", "リサリサ", "イギー");
         this.name = name;
         this.number = number;
         hands = new ArrayList<Card>();
@@ -50,16 +61,16 @@ public class Player {
         return hand;
     }
 
-    public ArrayList<Card> selectCards(){
-        Scanner sc = new Scanner(System.in);
-        System.out.printf("どのカードを出しますか？\n出すカードが左から何番目かを1~%dの数字で入力してください。\nパスなら-1を入力してください。\n", hands.size());
+    public ArrayList<Card> selectCards(ArrayList<Card> prevCards, Scanner sc){
+        System.out.println("-------------------------");
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf("\n出すカードが左から何番目かを1~%dの数字で入力してください。\nパスなら-1を入力してください。\n", hands.size());
         System.out.println(showHand());
-        String inputLine = sc.nextLine();
+        String inputLine = scanner.nextLine();
         ArrayList<Card> cards = new ArrayList<>();
 
         if (inputLine.equals("-1")) {
-            System.out.printf("プレイヤー%dはパスをしました。", number);
-            cards = new ArrayList<>();
+            return prevCards;
         } else {
             // スペースで分割して文字列配列に変換
             String[] numbersAsString = inputLine.split(" ");
@@ -73,91 +84,9 @@ public class Player {
             for (int number : numbers) {
                 cards.add(hands.get(number - 1));
             }
+            return cards;
         }
-        return cards;
     }
-
-    // public boolean judge(boolean ok, ArrayList<Card> nowCards) {
-    //     if (pastCards.contains(new Card("00"))) {
-    //         return true;
-    //     } else {
-    //         String searchString = hands.get(0).getType();
-    //         int searchNumber = hands.get(0).getNumber();
-    //         int count = 0;
-    //         for (int number : numbers) {
-    //             if ((!hands.get(number - 1).getType().equals(searchString) || hands.get(number - 1).getNumber() != searchNumber + count) || hands.get(number).getNumber() != searchNumber) {
-    //                 return false;
-    //             }
-
-    //             if (number > hands.size()) {
-    //                 System.out.println("正しい数字を入力してください。");
-    //                 return false;
-    //             }
-    
-    //             if (pastCards.size() != nowCards.size()) {
-    //                 return false;
-    //             }
-    
-    //             // 手動で最大値のインデックスを探す
-    //             int maxIndex = -1;
-    //             int maxValue = Integer.MIN_VALUE;
-    
-    //             for (int i = 0; i < numbers.size(); i++) {
-    //                 if (numbers.get(i) > maxValue) {
-    //                     maxValue = numbers.get(i);
-    //                     maxIndex = i;
-    //                 }
-    //             }
-    
-    //             if (hands.get(number).getNumber() <= cards.get(maxIndex).getNumber()) {
-    //                 return false;
-    //             }
-    //             count += 1;
-    
-    //             return true;
-    //         }
-    //     }
-    // }
 }
 
-// } else if (showHand().contains("00")) {
-//     return cards;
-
-
-// String searchString = hands.get(0).getType();
-// int searchNumber = hands.get(0).getNumber();
-// int count = 0;
-// for (int number : numbers) {
-//     if ((!hands.get(number - 1).getType().equals(searchString) || hands.get(number - 1).getNumber() != searchNumber + count) || hands.get(number).getNumber() != searchNumber) {
-//         return false;
-//     }
-//     if (number > hands.size()) {
-//         System.out.println("正しい数字を入力してください。");
-//         return false;
-//     }
-
-//     if (hands.size() != cards.size()) {
-//         return false;
-//     }
-
-//     // 手動で最大値のインデックスを探す
-//     int maxIndex = -1;
-//     int maxValue = Integer.MIN_VALUE;
-
-//     for (int i = 0; i < numbers.size(); i++) {
-//         if (numbers.get(i) > maxValue) {
-//             maxValue = numbers.get(i);
-//             maxIndex = i;
-//         }
-//     }
-
-//     if (hands.get(number).getNumber() <= cards.get(maxIndex).getNumber()) {
-//         return false;
-//     }
-//     count += 1;
-
-//     return true;
-// }
-// }
-// // return true;
 
