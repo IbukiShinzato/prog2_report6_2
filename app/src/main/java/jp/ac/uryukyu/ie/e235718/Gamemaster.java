@@ -2,6 +2,7 @@ package jp.ac.uryukyu.ie.e235718;
 
 import java.util.*;
 
+
 /**
  * "\u2660" = スペード
  * "\u2663" = クローバー
@@ -24,6 +25,7 @@ import java.util.*;
  * Scanner scanner; //入力のためのもの
  */
 
+//Gamemaster -> GameMasterに変更
 public class GameMaster {
     public Player[] players;
     public ArrayList<Card> yamahuda;
