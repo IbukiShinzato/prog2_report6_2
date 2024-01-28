@@ -25,7 +25,7 @@ import java.util.*;
  * Scanner scanner; //入力のためのもの
  */
 
-//Gamemaster -> GameMasterに変更
+//Gamemaster -> GameMasterに変更しました
 public class GameMaster {
     public Player[] players;
     public ArrayList<Card> yamahuda;
