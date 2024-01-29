@@ -10,7 +10,7 @@ public class GameMasterTest {
         String simulatedUserInput = "4\nIbuki\n1\n2\n3\n7 8\n";
         ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedUserInput.getBytes());
         System.setIn(testIn);
-        GameMaster test = new GameMaster();
+        Gamemaster test = new Gamemaster();
         test.dealOut();
         assertEquals(test.players[0].hands.size(), 14);
     }

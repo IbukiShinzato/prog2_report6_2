@@ -26,7 +26,7 @@ import java.util.*;
  */
 
 //Gamemaster -> GameMasterに変更しました
-public class GameMaster {
+public class Gamemaster {
     public Player[] players;
     public ArrayList<Card> yamahuda;
     private int q;
@@ -47,7 +47,7 @@ public class GameMaster {
      * 54枚のトランプ生成
      * ルールの決定
      */
-    public GameMaster() {
+    public Gamemaster() {
         System.out.printf("\nゲーム開始！\n");
         this.scanner = new Scanner(System.in);
         System.out.printf("\nプレイヤーの人数を選択してください。\n例：4\n");

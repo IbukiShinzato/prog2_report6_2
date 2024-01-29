@@ -12,7 +12,7 @@ public class Main {
      * @param args 使用しない
      */
     public static void main(String[] args) {
-        GameMaster test = new GameMaster();
+        Gamemaster test = new Gamemaster();
         test.getPlayers();
         test.dealOut();
         test.turn();
